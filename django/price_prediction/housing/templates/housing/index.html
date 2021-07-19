@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Housing Price Prediction</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Price Prediction<span class="sr-only">(current)</span></a>
+                </li>
+
+            </ul>
+
+        </div>
+    </nav>
+    {% if answer %}
+    <div class="jumbtron">
+
+        <h2 class="m-2 p-2">Price: &dollar;&nbsp;{{answer}}</h2>
+        <a class="m-2 p-2" href="/housing">Predict another</a>
+    </div>
+    {% else %}
+
+
+    <!-- first row -->
+    <div class="jumbotron" style="max-width: 60%; margin: 20px auto">
+        <form method="POST" onsubmit="return check()">
+            {% csrf_token %}
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">per capita crime rate by town</label>
+                        <input name="CRIM" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">proportion of residential land zoned for lots over 25,000
+                            sq.ft.</label>
+                        <input name="ZN" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+
+            </div>
+            <!-- second row -->
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">proportion of non-retail business acres per town</label>
+                        <input name="INDUS" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Charles River dummy variable (= 1 if tract bounds river; 0
+                            otherwise)</label>
+                        <input name="CHAS" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+
+            </div>
+            <!-- third row -->
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">nitric oxides concentration (parts per 10 million)</label>
+                        <input name="NOX" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">average number of rooms per dwelling</label>
+                        <input name="RM" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+
+            </div>
+            <!-- fourth row -->
+
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">proportion of owner-occupied units built prior to 1940</label>
+                        <input name="AGE" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">weighted distances to five Boston employment centres</label>
+                        <input name="DIS" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- fifth row -->
+
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">index of accessibility to radial highways</label>
+                        <input name="RAD" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">full-value property-tax rate per $10,000</label>
+                        <input name="TAX" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+
+            </div>
+            <!-- sixth row -->
+
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">pupil-teacher ratio by town</label>
+                        <input name="PTRATIO" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">1000(Bk - 0.63)^2 where Bk is the proportion of blacks by
+                            town</label>
+                        <input name="B" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- seventh row -->
+            <div class="row p-3">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">% lower status of the population</label>
+                        <input name="LSTAT" type="text" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" placeholder="">
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2"><button  type="submit" class="btn btn-primary">Submit</button></div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2"></div>
+            </div>
+        </form>
+    </div>
+    {% endif %}
+</body>
+
+
+</html>
